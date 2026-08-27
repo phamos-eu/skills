@@ -538,7 +538,7 @@ Create or update `issue/{slug}/evidence/summary.md` upon feature completion (Pha
 **Branch:** [slug]
 **Date:** [YYYY-MM-DD]
 
-link: [Work Item ID: [Work Item ID]](https://git.phamos.eu/becharged/becharged/-/work_items/[Issue ID])
+link: [Work Item ID: [Work Item ID]](https://git.phamos.eu/customer/project/-/work_items/[Issue ID])
 
 ### Summary
 [High-level summary of feature or refactor]
