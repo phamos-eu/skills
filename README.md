@@ -11,6 +11,7 @@ A collection of agent skills for building and customizing ERPNext/Frappe applica
 | `refine-prompt-from-codebase` | Codebase investigation and interactive grilling to transform rough feature requests into implementation-ready prompts |
 | `create-skill` | Standardized creation of new agent skills (`SKILL.md`) packaging reusable workflows |
 | `update-skill` | Analysis, refinement, and enhancement of existing skills while preserving intent and improving AGY ecosystem compatibility |
+| `write-frappe-tests` | Planning, writing, running and proving automated tests for Frappe/ERPNext apps (DocTypes, APIs, hooks, jobs, patches) on Frappe v15 and v16 |
 
 ## Install
 
