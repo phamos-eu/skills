@@ -1,6 +1,6 @@
 # Exploration Report: #[iid] [Title]
 
-Ticket: [ticket link] (parent #[parent iid]) · Mode: Full · Status: [draft | awaiting approval | approved YYYY-MM-DD]
+Ticket: [ticket link] (parent #[parent iid]) · Mode: Full · Status: [draft | awaiting approval | approved YYYY-MM-DD] · Thread: [— | v[n]]
 
 Paths are relative to `[app_repo]/` unless stated otherwise. Data counts come from read-only queries on `[site]`.
 

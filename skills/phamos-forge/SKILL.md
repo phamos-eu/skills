@@ -55,7 +55,7 @@ Values used throughout this skill:
 ## Modes
 
 - **Full (default):** Phases 1 → 9.
-- **Quick (`--quick`):** Phases 1, 4, 5, 6, 7, 8, 9. Skips Explore and Design, so no design thread is posted.
+- **Quick (`--quick`):** Phases 1, 4, 5, 6, 7, 8, 9. Skips Explore and Design, so only the requirements thread is posted.
 
 If the ticket is clearly single-layer and well understood, suggest Quick mode and wait for the answer.
 
@@ -71,7 +71,7 @@ If the ticket is clearly single-layer and well understood, suggest Quick mode an
 ## Resume
 
 1. Run `forge_config.py`, read the Project rules in `PROJECT.md`, then `PROGRESS.md`: current phase, current task, Deferred / Open section.
-2. If `PROGRESS.md` has a design `discussion_id`, **rebuild `docs/design_first.md` from the ticket** ([gitlab.md › Rebuild](./references/gitlab.md#rebuild-design_firstmd)). The ticket is canonical for the design. Report any reply that changed the design since last time.
+2. For every ticket thread listed in `PROGRESS.md` (requirements, exploration, design), **rebuild the local doc from the ticket** ([gitlab.md › Rebuild](./references/gitlab.md#rebuild-a-doc-from-its-thread)). The ticket is canonical for these docs. Report any reply that changed a doc since last time.
 3. Check `git status` and `git branch` in `{app_repo}`.
 4. State the resume point in two or three lines and wait for the user's confirmation. Never continue past a gate silently.
 
@@ -109,7 +109,7 @@ Start from the ticket text and comments. Then use the grill rules:
 Cover until resolved or irrelevant: business goal, user workflow, expected behaviour, edge cases, permissions, constraints, integrations, existing implementation, assumptions.
 
 Save to `docs/requirements.md` ([template](./templates/docs/requirements.md)). Log every decision in `docs/log.md`.
-**Gate:** the user confirms the requirements summary.
+**Gate:** the user confirms the requirements summary. Then post it as the **requirements thread** (see Ticket threads).
 
 ## Phase 2 — Explore
 **[Full only]**
@@ -122,7 +122,7 @@ Read the code; do not ask what the project answers. Report:
 5. Extension points
 
 Save to `docs/exploration_report.md` ([template](./templates/docs/exploration_report.md)).
-**Gate:** the user approves the report.
+**Gate:** the user approves the report. Then post it as the **exploration thread** (see Ticket threads).
 
 ## Phase 3 — Design
 **[Full only]**
@@ -132,11 +132,23 @@ Overview · Data Flow · API Flow · Database Changes · Backend Changes · Fron
 
 Present it section by section. For complex choices, suggest `/grill-me`.
 
-**Gate:** the user approves the design. Then:
-1. Show the v1 comment ([templates › Design v1](./references/templates.md#design-v1-comment)) and post it after the user's OK as a **new top-level note** on the ticket.
-2. Read the ticket's discussions to find the new thread's `discussion_id`. Save it in `PROGRESS.md`.
+**Gate:** the user approves the design. Then post it as the **design thread** (see Ticket threads).
 
-**Later design changes (any phase):** update `docs/design_first.md`, show the reply ([templates › Design reply](./references/templates.md#design-reply-comment)), post it after the user's OK **as a reply in the design thread** (`save_note` with `discussion_id`). Never post a new top-level design comment, never edit an old one. Log the change in `docs/log.md`.
+## Ticket threads
+
+Three docs are mirrored to the ticket, each as **its own thread**, and the ticket is canonical for them:
+
+| Doc | Thread key | Posted after | Mode |
+|---|---|---|---|
+| `docs/requirements.md` | `requirements` | Phase 1 gate | Full + Quick |
+| `docs/exploration_report.md` | `exploration` | Phase 2 gate | Full |
+| `docs/design_first.md` | `design` | Phase 3 gate | Full |
+
+**First version:** show the v1 comment ([templates › Doc v1](./references/templates.md#doc-v1-comment)) and post it after the user's OK as a **new top-level note**. Then find the thread's `discussion_id` ([gitlab.md](./references/gitlab.md#find-a-thread-after-posting-v1)) and save it in `PROGRESS.md` under `Threads`.
+
+**Later changes (any phase):** update the local doc, show the reply ([templates › Doc reply](./references/templates.md#doc-reply-comment)), and post it after the user's OK **as a reply in that doc's thread** (`save_note` with its `discussion_id`). Never post a second top-level comment for the same doc, never edit an old one. Log the change in `docs/log.md` with the version (`requirements v2`).
+
+A change to one doc often affects another (a new requirement usually changes the design). Say so, and post a reply in each affected thread, one at a time, each after the user's OK.
 
 Rejected drafts are never posted.
 
@@ -208,8 +220,8 @@ Closing tickets is out of scope for this skill.
 
 | Content | Where | When |
 |---|---|---|
-| Design v1 | new top-level note | after design approval + OK on the text |
-| Design change | reply in the design thread | after OK on the text |
+| Requirements / exploration / design v1 | one new top-level note per doc | after that phase's gate + OK on the text |
+| Change to one of them | reply in that doc's thread | after OK on the text |
 | PR comment | new top-level note | after OK on the text |
 | Labels | work item labels | only on request |
 
@@ -234,9 +246,9 @@ If uncertain: stop, ask, resolve, then continue.
 | Path (under `{workspace}/issue/`) | Purpose | Lives |
 |---|---|---|
 | `PROJECT.md` | local config (test site etc.) and project rules, shared by all tickets | local |
-| `{slug}/PROGRESS.md` | tracker, design `discussion_id`, Deferred / Open | local |
-| `{slug}/docs/requirements.md` | Phase 1 | local |
-| `{slug}/docs/exploration_report.md` | Phase 2 | local |
+| `{slug}/PROGRESS.md` | tracker, thread `discussion_id`s, Deferred / Open | local |
+| `{slug}/docs/requirements.md` | Phase 1, rebuilt from the ticket on resume | **ticket is canonical** |
+| `{slug}/docs/exploration_report.md` | Phase 2, rebuilt from the ticket on resume | **ticket is canonical** |
 | `{slug}/docs/design_first.md` | Phase 3, rebuilt from the ticket on resume | **ticket is canonical** |
 | `{slug}/docs/milestones.md`, `docs/tasks.md` | Phases 4–5 | local |
 | `{slug}/docs/log.md` | append-only decision log | local |
@@ -250,5 +262,5 @@ Local-only files have no backup unless `{workspace}` is under version control. K
 - [rules.md](./rules.md): general lessons (user-maintained)
 - [scripts/forge_config.py](./scripts/forge_config.py): resolves project config (derived → hooks.py → PROJECT.md)
 - [templates/](./templates/): tracker file templates, one per file, same layout as `issue/{slug}/`
-- [references/templates.md](./references/templates.md): hooks.py block, PROJECT.md, design and PR comment templates
-- [references/gitlab.md](./references/gitlab.md): tool calls, design-thread rebuild, labels, quick-action escaping
+- [references/templates.md](./references/templates.md): hooks.py block, PROJECT.md, doc-thread and PR comment templates
+- [references/gitlab.md](./references/gitlab.md): tool calls, doc-thread rebuild, labels, quick-action escaping

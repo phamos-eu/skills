@@ -1,6 +1,6 @@
 # Design: #[iid] [Title]
 
-Ticket: [ticket link] (parent #[parent iid]) · Mode: Full · Status: [draft | approved YYYY-MM-DD] · Thread: [v1 | v[n]]
+Ticket: [ticket link] (parent #[parent iid]) · Mode: Full · Status: [draft | approved YYYY-MM-DD] · Thread: [— | v[n]]
 
 Builds on `requirements.md`, `exploration_report.md` and log #[n]–#[m]. Paths are relative to `[app_repo]/` unless stated otherwise.
 

@@ -11,24 +11,32 @@ Tools come from the `git_phamos_eu` MCP server. Load them with ToolSearch (`sele
 
 `save_note` with `url` (or `work_item_iid` + `project_id`) and `body`.
 - Reply in a thread: add `discussion_id` (`gid://gitlab/Discussion/<id>`).
-- `save_note` **cannot edit** an existing note. Design changes are therefore always new replies.
+- `save_note` **cannot edit** an existing note. Doc changes are therefore always new replies.
 - **Quick-action guard:** a body with a line starting with `/` is rejected. Before posting, put such lines in a code block or prefix them with a space or backtick (e.g. `` `/api/method/...` ``). Check every line, including inside `<details>`.
 
-## Find the design thread after posting v1
+## Doc threads
 
-`save_note` may not return the discussion id. After posting v1, read discussions (`include: ["discussions"]`, `only_comments`) and pick the thread whose **first note** begins with `<!-- phamos-forge:design v1 -->`. Store its id in PROGRESS.md (`Design thread:`).
+| Key | Local file |
+|---|---|
+| `requirements` | `docs/requirements.md` |
+| `exploration` | `docs/exploration_report.md` |
+| `design` | `docs/design_first.md` |
 
-If PROGRESS.md has lost the id, find it the same way.
+## Find a thread after posting v1
 
-## Rebuild design_first.md
+`save_note` may not return the discussion id. After posting v1, read discussions (`include: ["discussions"]`, `only_comments`) and pick the thread whose **first note** begins with `<!-- phamos-forge:[key] v1 -->`. Store its id in PROGRESS.md under `Threads`.
 
-Run on every resume when a design thread exists. The ticket is canonical.
+If PROGRESS.md has lost an id, find it the same way.
 
-1. Read the design thread's notes in order.
-2. Keep only notes that begin with `<!-- phamos-forge:design v` and parse the version number. Notes without the marker (hand-written replies) are **not applied**: list them to the user as "unprocessed comments in the design thread" and ask whether to fold them in as a new version.
-3. Start from v1's body inside `<details>`. Split it into `## ` sections.
+## Rebuild a doc from its thread
+
+Run on every resume, for each thread listed in PROGRESS.md. The ticket is canonical.
+
+1. Read the thread's notes in order.
+2. Keep only notes that begin with `<!-- phamos-forge:[key] v` and parse the version number. Notes without the marker (hand-written replies) are **not applied**: list them to the user as "unprocessed comments in the [key] thread" and ask whether to fold them in as a new version.
+3. Start from v1's body inside `<details>`: the header lines, then `## ` sections.
 4. For each later version in order: for each `## ` section inside its `<details>`, replace the section with the same heading, or append it if it's new. A section whose body is `_Removed._` is deleted.
-5. Write the result to `docs/design_first.md`. If it differs from the local file, show the diff to the user; the ticket version wins. If the local file has unposted changes, tell the user and offer to post them as the next reply.
+5. Set the header's `Thread:` value to the last version. Write the result to the local file. If it differs from the local file, show the diff to the user; the ticket version wins. If the local file has unposted changes, tell the user and offer to post them as the next reply.
 
 ## Status labels
 

@@ -1,6 +1,6 @@
 # Requirements: #[iid] [Title]
 
-Ticket: [ticket link] (parent #[parent iid]) · Mode: [Full | Quick] · Status: [draft | awaiting approval | approved YYYY-MM-DD]
+Ticket: [ticket link] (parent #[parent iid]) · Mode: [Full | Quick] · Status: [draft | awaiting approval | approved YYYY-MM-DD] · Thread: [— | v[n]]
 
 ## Business goal
 [One or two sentences: who needs what, and why. Name the doctype / screen / process.]

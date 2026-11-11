@@ -5,7 +5,7 @@
 **Ticket:** [ticket link]
 **Parent:** [parent iid (parent title) | —]
 **Branch:** [slug]
-**Design thread:** [gid://gitlab/Discussion/... | — (not posted yet)]
+**Threads:** requirements [gid://gitlab/Discussion/... v[n] | —] · exploration [... | —] · design [... | —]
 **Started:** [YYYY-MM-DD]
 **Last Updated:** [YYYY-MM-DD]
 
