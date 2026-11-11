@@ -64,7 +64,7 @@ If the ticket is clearly single-layer and well understood, suggest Quick mode an
 1. **Config:** run `forge_config.py` (see Project config) and fill anything missing.
 2. **Read the ticket.** `get_work_item` with the URL or IID (project `{ticket_project}`). Note title, description, labels, parent. Also read its discussions (`include: ["discussions"]`), since decisions often sit in comments.
 3. **Slug:** `{ticket-iid}-{slugified-title}-{parent-iid}`; drop `-{parent-iid}` if there is no parent. Slugify: lowercase, spaces → hyphens, drop non-alphanumerics, collapse hyphens, trim.
-4. **Folder:** if `{workspace}/issue/{slug}/` exists, go to **Resume**. Otherwise create `issue/{slug}/docs/` and `issue/{slug}/evidence/`, then `PROGRESS.md`, `docs/log.md` and `evidence/summary.md` from [templates](./references/templates.md).
+4. **Folder:** if `{workspace}/issue/{slug}/` exists, go to **Resume**. Otherwise create `issue/{slug}/docs/` and `issue/{slug}/evidence/`, then copy `PROGRESS.md`, `docs/log.md` and `evidence/summary.md` from [templates/](./templates/) and fill them. See **Tracker templates** below.
 5. **Git ignore guard:** if `{workspace}/issue/` sits inside `{app_repo}`, make sure `{app_repo}/.gitignore` contains `issue/`. Show the one-line change and add it only after the user's OK.
 6. **Branch** in `{app_repo}`: `git checkout {base_branch} && git pull && git checkout -b {slug}`. If the branch exists, switch to it and remind the user to sync with `{base_branch}`. Never stash or discard the user's changes. If the tree is dirty, stop and ask.
 
@@ -74,6 +74,29 @@ If the ticket is clearly single-layer and well understood, suggest Quick mode an
 2. If `PROGRESS.md` has a design `discussion_id`, **rebuild `docs/design_first.md` from the ticket** ([gitlab.md › Rebuild](./references/gitlab.md#rebuild-design_firstmd)). The ticket is canonical for the design. Report any reply that changed the design since last time.
 3. Check `git status` and `git branch` in `{app_repo}`.
 4. State the resume point in two or three lines and wait for the user's confirmation. Never continue past a gate silently.
+
+## Tracker templates
+
+Every tracker file is created from its template in [templates/](./templates/), every time, for every ticket:
+
+| File | Template | Created |
+|---|---|---|
+| `PROGRESS.md` | [templates/PROGRESS.md](./templates/PROGRESS.md) | Setup |
+| `docs/log.md` | [templates/docs/log.md](./templates/docs/log.md) | Setup |
+| `evidence/summary.md` | [templates/evidence/summary.md](./templates/evidence/summary.md) | Setup (header only; PR blocks added in Phase 9) |
+| `docs/requirements.md` | [templates/docs/requirements.md](./templates/docs/requirements.md) | Phase 1 |
+| `docs/exploration_report.md` | [templates/docs/exploration_report.md](./templates/docs/exploration_report.md) | Phase 2 (Full) |
+| `docs/design_first.md` | [templates/docs/design_first.md](./templates/docs/design_first.md) | Phase 3 (Full) |
+| `docs/milestones.md` | [templates/docs/milestones.md](./templates/docs/milestones.md) | Phase 4 |
+| `docs/tasks.md` | [templates/docs/tasks.md](./templates/docs/tasks.md) | Phase 5 |
+
+Rules:
+- Copy the template, then replace every `[placeholder]`. No `[...]` may remain.
+- Keep every heading, in the same order and spelling. A section with nothing to say gets `None.`, never removed.
+- Don't add new `## ` sections; put extra detail as `###` subsections or bullets under the closest heading.
+- Repeat blocks (R-numbers, milestones, tasks, log rows, PR blocks) as many times as needed, in the same shape.
+- Update the header `Status:` line when a gate is passed.
+- `summary.md` without PR blocks keeps only its header and the "One block per PR" line; drop the example block until the first PR.
 
 ## Phase 1 — Understand
 **[Full + Quick]**
@@ -85,7 +108,7 @@ Start from the ticket text and comments. Then use the grill rules:
 
 Cover until resolved or irrelevant: business goal, user workflow, expected behaviour, edge cases, permissions, constraints, integrations, existing implementation, assumptions.
 
-Save to `docs/requirements.md`. Log every decision in `docs/log.md`.
+Save to `docs/requirements.md` ([template](./templates/docs/requirements.md)). Log every decision in `docs/log.md`.
 **Gate:** the user confirms the requirements summary.
 
 ## Phase 2 — Explore
@@ -98,13 +121,13 @@ Read the code; do not ask what the project answers. Report:
 4. Risks
 5. Extension points
 
-Save to `docs/exploration_report.md`.
+Save to `docs/exploration_report.md` ([template](./templates/docs/exploration_report.md)).
 **Gate:** the user approves the report.
 
 ## Phase 3 — Design
 **[Full only]**
 
-Write `docs/design_first.md` with these sections (use `## ` headings exactly; the thread replies replace sections by heading):
+Write `docs/design_first.md` from its [template](./templates/docs/design_first.md), with these sections (use `## ` headings exactly; the thread replies replace sections by heading):
 Overview · Data Flow · API Flow · Database Changes · Backend Changes · Frontend Changes · Permissions · Validation Rules · Error Handling · Logging · Testing Strategy · Out of Scope
 
 Present it section by section. For complex choices, suggest `/grill-me`.
@@ -120,13 +143,13 @@ Rejected drafts are never posted.
 ## Phase 4 — Milestones
 **[Full + Quick]**
 
-Each milestone is independently deployable where possible, and ideally maps to one PR. Save to `docs/milestones.md`.
+Each milestone is independently deployable where possible, and ideally maps to one PR. Save to `docs/milestones.md` ([template](./templates/docs/milestones.md)).
 **Gate:** the user approves the milestones.
 
 ## Phase 5 — Atomic tasks
 **[Full + Quick]**
 
-Each task takes 15–60 minutes and has one observable result. Save to `docs/tasks.md` and add them to the Progress Tree.
+Each task takes 15–60 minutes and has one observable result. Save to `docs/tasks.md` ([template](./templates/docs/tasks.md)) and add them to the Progress Tree.
 
 ## Phase 6 — One task at a time
 **[Full + Quick]**
@@ -172,7 +195,7 @@ A task is done only when all are true:
 Do not start the next task without that approval.
 
 **When a PR is opened** on `{pr_repo}` (the user opens it, or asks you to):
-1. Add a new PR block at the **bottom** of `evidence/summary.md` ([templates › summary](./references/templates.md#evidencesummarymd)). Never rewrite earlier blocks.
+1. Add a new PR block at the **bottom** of `evidence/summary.md`, in the block format of its [template](./templates/evidence/summary.md). Never rewrite earlier blocks.
 2. Draft the ticket comment ([templates › PR comment](./references/templates.md#pr-comment-on-the-ticket)), show it, post as a **top-level note** only after the user's OK.
 
 ## Status labels (manual only)
@@ -226,5 +249,6 @@ Local-only files have no backup unless `{workspace}` is under version control. K
 
 - [rules.md](./rules.md): general lessons (user-maintained)
 - [scripts/forge_config.py](./scripts/forge_config.py): resolves project config (derived → hooks.py → PROJECT.md)
-- [references/templates.md](./references/templates.md): hooks.py block, profile, file and comment templates
+- [templates/](./templates/): tracker file templates, one per file, same layout as `issue/{slug}/`
+- [references/templates.md](./references/templates.md): hooks.py block, PROJECT.md, design and PR comment templates
 - [references/gitlab.md](./references/gitlab.md): tool calls, design-thread rebuild, labels, quick-action escaping
