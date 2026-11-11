@@ -1,6 +1,6 @@
 ---
 name: phamos-forge
-description: 'Build a feature or fix from a git.phamos.eu ticket in small, gated, testable steps, for any project. Reads the ticket, keeps the tracker in the workspace issue/{slug}/ folder (never in the app repo), posts the approved design to the ticket as one comment thread (v1 + replies), and records each PR in summary.md. Project details come from issue/PROJECT.md. Use for "work on ticket 412", "start/resume ticket", "phamos-forge <url>". Not for GitLab label/release lifecycle (that is gitlab-issue-workflow).'
+description: 'Build a feature or fix from a git.phamos.eu ticket in small, gated, testable steps, for any project. Reads the ticket, keeps the tracker in the workspace issue/{slug}/ folder (never in the app repo), posts the approved requirements, exploration report and design to the ticket as one comment thread each (v1 + replies), and records each PR in summary.md. Project details come from issue/PROJECT.md. Use for "work on ticket 412", "start/resume ticket", "phamos-forge <url>". Not for GitLab label/release lifecycle (that is gitlab-issue-workflow).'
 argument-hint: '<ticket URL or IID> [--quick]'
 disable-model-invocation: true
 ---
