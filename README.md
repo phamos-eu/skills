@@ -11,6 +11,7 @@ A collection of agent skills for building and customizing ERPNext/Frappe applica
 | `refine-prompt-from-codebase` | Codebase investigation and interactive grilling to transform rough feature requests into implementation-ready prompts |
 | `create-skill` | Standardized creation of new agent skills (`SKILL.md`) packaging reusable workflows |
 | `update-skill` | Analysis, refinement, and enhancement of existing skills while preserving intent and improving AGY ecosystem compatibility |
+| `phamos-forge` | Ticket-driven delivery from git.phamos.eu: reads the ticket, decomposes it into small gated and testable steps, keeps the tracker in `issue/{slug}/` (outside the app repo), posts the approved design to the ticket, and records each PR in `summary.md`. Invoke explicitly: `/phamos-forge <ticket URL or IID> [--quick]` |
 
 ## Install
 
@@ -40,3 +41,5 @@ Skills are matched by the `name` field in each `SKILL.md` frontmatter, and live 
 Most skills activate automatically when you ask your agent about a matching task (e.g. breaking down a multi-layer feature, stress-testing architectural plans, or creating/updating agent skills).
 
 You can also explicitly invoke specific skills using their name (e.g. `/grill-me`, `/build-stepwise`).
+
+`phamos-forge` does not auto-activate; start it with `/phamos-forge <ticket URL or IID>`. Project settings come from a `phamos_forge = {...}` block in the app's `hooks.py` (team values) and `{workspace}/issue/PROJECT.md` (local values); the skill asks for anything missing on first run.
