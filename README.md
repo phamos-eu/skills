@@ -42,4 +42,4 @@ Most skills activate automatically when you ask your agent about a matching task
 
 You can also explicitly invoke specific skills using their name (e.g. `/grill-me`, `/build-stepwise`).
 
-`phamos-forge` does not auto-activate; start it with `/phamos-forge <ticket URL or IID>`. Project settings come from a `phamos_forge = {...}` block in the app's `hooks.py` (team values) and `{workspace}/issue/PROJECT.md` (local values); the skill asks for anything missing on first run.
+`phamos-forge` does not auto-activate; start it with `/phamos-forge <ticket URL or IID>`. Project settings come from a `phamos_forge = {...}` block in the app's `hooks.py` (team values) and `{workspace}/issue/PROJECT.md` (local values); the skill asks for anything missing on first run. See [skills/phamos-forge/CONFIG.md](skills/phamos-forge/CONFIG.md) for the `hooks.py` setup guide.

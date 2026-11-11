@@ -261,6 +261,7 @@ Local-only files have no backup unless `{workspace}` is under version control. K
 
 - [rules.md](./rules.md): general lessons (user-maintained)
 - [scripts/forge_config.py](./scripts/forge_config.py): resolves project config (derived → hooks.py → PROJECT.md)
+- [CONFIG.md](./CONFIG.md): human setup guide for the `hooks.py` block and `PROJECT.md`
 - [templates/](./templates/): tracker file templates, one per file, same layout as `issue/{slug}/`
 - [references/templates.md](./references/templates.md): hooks.py block, PROJECT.md, doc-thread and PR comment templates
 - [references/gitlab.md](./references/gitlab.md): tool calls, doc-thread rebuild, labels, quick-action escaping
